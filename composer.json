@@ -1,0 +1,22 @@
+{
+    "name": "nerds-and-company/craft-unit-test-suite",
+    "description": "A library that helps you mocking Craft database/model classes",
+    "keywords": ["PHPUnit", "craft", "database", "model", "DBCommand"],
+    "authors": [
+        {
+          "name": "Nick Obermeijer",
+          "email": "n.obermeijer@nerds.company",
+          "homepage": "http://www.nerds.company",
+          "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">= 5.3"
+    },
+    "autoload" : {
+        "psr-4": {
+            "UnitTestSuite\\": "src/"
+        }
+    }
+}

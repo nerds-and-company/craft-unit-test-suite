@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../craft/app/tests/bootstrap.php';
-require_once __DIR__.'/tests/UnitTestSuite_AbstractTest.php';
-require_once __DIR__.'/classes/AbstractTestLoader.php';
+require_once __DIR__ . '/../../craft/app/tests/bootstrap.php';
 
-$testSuiteLoader = new \Unittestsuite\AbstractTestLoader();
+$testSuiteLoader = new UnitTestSuite\Loader\AbstractTestLoader();
 $testSuiteLoader->requireFiles(); // load files

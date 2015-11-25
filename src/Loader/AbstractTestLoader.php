@@ -1,16 +1,16 @@
 <?php
 
-namespace Unittestsuite;
+namespace UnitTestSuite\Loader;
+
+use Symfony\Component\Yaml\Yaml;
 
 use Craft\Craft as Craft;
 use Craft\IOHelper;
 use Craft\LogLevel;
 
-use Symfony\Component\Yaml\Yaml;
-
 /**
- * Class Unittestsuite_AbstractTestFileLoader
- * @package Unittestsuite
+ * Class AbstractTestLoader
+ * @package UnitTestSuite\Loader
  */
 class AbstractTestLoader
 {

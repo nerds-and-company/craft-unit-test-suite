@@ -25,6 +25,6 @@ The library is composed of two classes:
 
 ## Usage
 
-- Make sure the phpunit bootstrap points at `bootstrap="vendor/unittestsuite/bootstrap.php`
+- Make sure the phpunit bootstrap points at `bootstrap="vendor/unittestsuite/src/bootstrap.php`
 - Copy the `unittestsuite.yml` supplied with this package `/craft/config` and add extra (abstract) classes you wish to pre-load
 - Extend `UnitTestSuite_AbstractTest` and override or add extra data to the returned mocks

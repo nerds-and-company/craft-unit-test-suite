@@ -1,12 +1,18 @@
 <?php
 
-namespace Craft;
+namespace UnitTestSuite\Model;
 
 use PHPUnit_Framework_MockObject_MockObject as Mock;
 
+use Craft\Craft as Craft;
+use Craft\BaseTest;
+use Craft\ConsoleApp;
+use Craft\WebApp;
+use Craft\EntryModel;
+
 /**
- * This class allows easier mocking of the Craft\DBConnection class
- * Class UnitTestSuite_AbstractTest.
+ * Class UnitTestSuite_AbstractTest
+ * @package UnitTestSuite\Model
  */
 abstract class UnitTestSuite_AbstractTest extends BaseTest
 {

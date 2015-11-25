@@ -1,6 +1,6 @@
 <?php
 
-namespace UnitTestSuite\Model;
+namespace NerdsAndCompany\CraftUnitTestSuite\Model;
 
 use PHPUnit_Framework_MockObject_MockObject as Mock;
 
@@ -11,10 +11,10 @@ use Craft\WebApp;
 use Craft\EntryModel;
 
 /**
- * Class UnitTestSuite_AbstractTest
- * @package UnitTestSuite\Model
+ * Class AbstractTest
+ * @package NerdsAndCompany\CraftUnitTestSuite\Model
  */
-abstract class UnitTestSuite_AbstractTest extends BaseTest
+abstract class AbstractTest extends BaseTest
 {
     /**
      * @var ConsoleApp|WebApp

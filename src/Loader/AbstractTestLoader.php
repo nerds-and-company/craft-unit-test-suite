@@ -1,6 +1,6 @@
 <?php
 
-namespace UnitTestSuite\Loader;
+namespace NerdsAndCompany\CraftUnitTestSuite\Loader;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -10,7 +10,7 @@ use Craft\LogLevel;
 
 /**
  * Class AbstractTestLoader
- * @package UnitTestSuite\Loader
+ * @package NerdsAndCompany\CraftUnitTestSuite\Loader
  */
 class AbstractTestLoader
 {

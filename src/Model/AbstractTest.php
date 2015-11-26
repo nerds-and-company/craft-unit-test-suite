@@ -3,6 +3,7 @@
 namespace NerdsAndCompany\CraftUnitTestSuite\Model;
 
 use PHPUnit_Framework_MockObject_MockObject as Mock;
+use PHPUnit_Framework_MockObject_MockBuilder as MockBuilder;
 
 use Craft\Craft as Craft;
 use Craft\BaseTest;
@@ -22,15 +23,53 @@ abstract class AbstractTest extends BaseTest
     private $craft;
 
     /**
+     * Allows setting mock methods
+     * @var array
+     */
+    protected $methods = array(
+        '\CComponent' => array('from')
+    );
+
+
+    /**
+     * Allows keeping original methods intact by overriding the set methods
+     * @param MockBuilder $mock
+     * @param string $name
+     */
+    private function setMockMethods(MockBuilder $mock, $name)
+    {
+        if (array_key_exists($name, $this->methods)) {
+            $mock->setMethods($this->methods[$name]);
+        }
+    }
+
+    /**
      * @return ConsoleApp|WebApp
      */
     protected function getCraft()
     {
         if (!$this->craft) {
-            $this->craft = craft();
+            $this->craft = Craft::app();
         }
 
         return $this->craft;
+    }
+
+    /**
+     * @param string $className
+     * @param bool|false $disableConstructor
+     * @return Mock
+     */
+    protected function getObjectMock($className, $disableConstructor = false)
+    {
+        $mock = $this->getMockBuilder($className);
+        if ($disableConstructor) {
+            $mock->disableOriginalConstructor();
+        }
+
+        $this->setMockMethods($mock, $className);
+
+        return $mock->getMock();
     }
 
     /**
@@ -40,9 +79,7 @@ abstract class AbstractTest extends BaseTest
      */
     protected function getMockCriteria()
     {
-        $mock = $this->getMockBuilder('\CDbCriteria')->getMock();
-
-        return $mock;
+        return $this->getObjectMock('\CDbCriteria');
     }
 
     /**
@@ -53,10 +90,9 @@ abstract class AbstractTest extends BaseTest
         $mockCriteria = $this->getMockCriteria();
         $mockFindCommand = $this->getMockCDbCommand();
 
-        $mock = $this->getMockBuilder('\CDbCommandBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getObjectMock('\CDbCommandBuilder', true);
 
+        $mock->expects($this->any())->method('createCriteria')->willReturn($mockCriteria);
         $mock->expects($this->any())->method('createColumnCriteria')->willReturn($mockCriteria);
         $mock->expects($this->any())->method('createFindCommand')->willReturn($mockFindCommand);
 
@@ -70,9 +106,7 @@ abstract class AbstractTest extends BaseTest
      */
     protected function getMockCDbTableSchema()
     {
-        $mock = $this->getMockBuilder('\CDbTableSchema')->getMock();
-
-        return $mock;
+        return $this->getObjectMock('\CDbTableSchema');
     }
 
     /**
@@ -83,9 +117,7 @@ abstract class AbstractTest extends BaseTest
         $mockCDbTableSchema = $this->getMockCDbTableSchema();
         $mockCommandBuilder = $this->getMockCommandBuilder();
 
-        $mock = $this->getMockBuilder('\CDbSchema')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getObjectMock('\CDbSchema', true);
 
         $mock->expects($this->any())->method('getCommandBuilder')->willReturn($mockCommandBuilder);
         $mock->expects($this->any())->method('getTable')->willReturn($mockCDbTableSchema);
@@ -100,9 +132,7 @@ abstract class AbstractTest extends BaseTest
      */
     protected function getMockCDbCommand()
     {
-        $mock = $this->getMockBuilder('\CDbCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getObjectMock('\CDbCommand', true);
 
         $mock->expects($this->any())->method('where')->willReturnSelf();
         $mock->expects($this->any())->method('andWhere')->willReturnSelf();
@@ -121,9 +151,7 @@ abstract class AbstractTest extends BaseTest
     {
         $mockCDbCommand = $this->getMockCDbCommand();
 
-        $mock = $this->getMockBuilder('\CComponent')
-            ->setMethods(array('from'))
-            ->getMock();
+        $mock = $this->getObjectMock('\CComponent');
 
         $mock->expects($this->any())->method('from')->willReturn($mockCDbCommand);
 
@@ -139,9 +167,7 @@ abstract class AbstractTest extends BaseTest
     {
         $mockCComponent = $this->getMockCComponent();
 
-        $mock = $this->getMockBuilder('Craft\DbCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $mock = $this->getObjectMock('Craft\DbCommand', true);
 
         $mock->expects($this->any())->method('select')->willReturn($mockCComponent);
 
@@ -158,7 +184,8 @@ abstract class AbstractTest extends BaseTest
         $mockCDbSchema = $this->getMockCDbSchema();
         $mockDbCommand = $this->getMockDbCommand();
 
-        $mock = $this->getMockBuilder('Craft\DbConnection')->getMock();
+        $mock = $this->getObjectMock('Craft\DbConnection');
+        $mock->autoConnect = false; // Do not auto connect
 
         $mock->expects($this->any())->method('getSchema')->willReturn($mockCDbSchema);
         $mock->expects($this->any())->method('createCommand')->willReturn($mockDbCommand);
